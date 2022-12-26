@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://js-grid.com/css/jsgrid.min.css">
+    <link rel="stylesheet" href="http://js-grid.com/css/jsgrid-theme.min.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/cupertino/jquery-ui.css">
+    <link rel="stylesheet" href="resources/css/style.css">
+    <title>HOLOLIVE PRE-REGISTER</title>
+</head>
+<body>
+<div class="wrap" id="Home">
+    <div class="main_nav">
+        <div class="nav_logo"><a href="#"><img src="resources/img/gnb_logo.webp" alt="MYTH X COUNTER SIDE"></a></div>
+        <div class="nav_items">
+            <a href="index.html" class="active">사전예약 인원</a>
+            <a href="list.html">사전예약 리스트</a>
+        </div>
+    </div>
+    <div class="main_nav_m">
+        <div class="nav_head">
+            <div class="nav_logo"><a href="#"><img src="resources/img/m/logo_gnb.webp" alt="MYTH X COUNTER SIDE"></a></div>
+            <div class="nav_btn"></div>
+        </div>
+        <div class="nav_body">
+            <div class="nav_items">
+                <a href="index.html" class="active">사전예약 인원</a>
+                <a href="list.html">사전예약 리스트</a>
+            </div>
+        </div>
+    </div>
+    <div class="ctn_area">
+        <h1>사전예약 인원 <span>합계<strong>30,302</strong></span></h1>
+        <div id="jsGrid"></div>
+    </div>
+</div>
+<script src="resources/js/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+<script src="http://js-grid.com/js/jsgrid.min.js"></script>
+<script src="http://js-grid.com/demos/db.js"></script>
+<script>
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+var player;
+function onYouTubeIframeAPIReady(){
+    player = new YT.Player('player',{
+    width:'100%',
+    videoId:'k26Pw2u0kxA',
+    playerVars:{'autoplay':1,'playsinline':1,'controls': 0,'modestbranding':1, 'roof': 1},
+    events:{ 'onReady':onPlayerReady }
+    });
+}
+function onPlayerReady(e){
+    e.target.mute();
+    e.target.playVideo();
+}
+  </script>
+<script>
+$(document).ready(function() {
+    $('.nav_btn').click(function() {
+        $(this).toggleClass('active');
+        $('.main_nav_m').toggleClass('active');
+        if ($(this).hasClass('active') === true) {
+            $('body').css("overflow","hidden");
+        } else {
+            $('body').css("overflow","auto");
+        }
+    });
+    $('.main_nav_m .nav_items a').click(function() {
+        $('.nav_btn').removeClass('active');
+        $('.main_nav_m').removeClass('active');
+            $('body').css("overflow","auto");
+    });
+
+});
+
+$(function() {
+ 
+    $("#jsGrid").jsGrid({
+        width: "100%",
+ 
+        sorting: true,
+        paging: true,
+        itemcount: true,
+ 
+        data: db.clients,
+ 
+        fields: [
+            { name: "Name", title: "날짜", type: "text", width: 100 },
+            { name: "Age", title: "한국", type: "number", align: "right"},
+            { name: "Address", title: "글로벌", type: "text", align: "right" },
+            { name: "Country", title: "일본", type: "select", align: "right", items: db.countries, valueField: "Id", textField: "Name" },
+            { name: "Married", title: "Total", type: "text", align: "right" }
+        ]
+    });
+
+});
+</script>
+</body>
+</html>
